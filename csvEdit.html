@@ -10,10 +10,11 @@
     <div class="middle"><p>middle</p></div>
     <div class="right"><p>right</p></div>
 
+    <script src="src/LocalData.js"></script>
+    <script src="src/TableRowWidget.js"></script>
     <script src="src/DirectoriesManager.js"></script>
     <script src="src/FilesManager.js"></script>
     <script src="src/EditManager.js"></script>
-    <script src="src/LocalData.js"></script>
     <script>
 
         var win=nw.Window.get();
@@ -26,6 +27,7 @@
         var divs=document.body.querySelectorAll('div');
         DirectoriesManager.init(divs[0],LocalData.csvRootDir);
         EditManager.init(divs[1]);
+        FilesManager.init(divs[2]);
 
     </script>
 </body>

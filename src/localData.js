@@ -17,9 +17,11 @@ LocalData={
         cellEnum:{
             sceneid:['scene1','scene2','scene3'],
             musicid:['music1','nusic2','music3']
-        }
+        },
+
+        splitChar:','
     },
-    
+
     init:function () {
         this.writeablePath=nw.App.dataPath;
         var fs=require('fs');
