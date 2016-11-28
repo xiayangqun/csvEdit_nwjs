@@ -1,12 +1,13 @@
 body{
     width: 1280px;
-    height: 72px;
+    height: 720px;
 }
 
 .left{
     width: 10%;
     height: 100%;
-    background-color: cornflowerblue;
+    background-color: cadetblue;
+    float: left;
 
 }
 
@@ -14,11 +15,12 @@ body{
     width: 10%;
     height: 100%;
     background-color: greenyellow;
-
+    float: left;
 }
 
 .right{
     width: 80%;
     height: 100%;
     background-color: whitesmoke;
+    float: left;
 }

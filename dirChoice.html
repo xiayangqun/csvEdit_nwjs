@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选择你的CSV文件夹的目录</title>
+</head>
+<body id="dirChoice" style="width: 600px;height: 400px">
+    <p>选择你的CSV文件夹目录</p>
+    <input type="file" nwdirectory/>
+    <button onclick="sureFun();">确定</button>
+    <script src="src/LocalData.js"></script>
+<script>
+    function sureFun() {
+        var iputNode= document.body.querySelector('input');
+        var path=iputNode.value;
+        if(path == '') {
+            alert('请选择好您的CSV目录后,再点击确定按钮');
+        }
+        else {
+            LocalData.init();
+            LocalData.csvRootDir=path;
+            LocalData.save();
+            nw.Window.open('csvEdit.html',{},function (wind) {});
+        }
+    }
+</script>
+</body>
+</html>

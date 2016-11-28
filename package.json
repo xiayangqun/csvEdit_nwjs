@@ -1,19 +1,21 @@
 {
   "name": "nwtest",
-  "main": "index.html",
+  "main": "src/main.js",
+  "chromium-args": "--mixed-context",
+  "node-main":"src/LocalData",
+  "nodejs":true,
   "version": "1.0.0",
   "description": "",
   "window":{
     "title":"NWTest",
     "toolbar":true,
     "frame":true,
-    "show_in_taskbar":true,
-    "width":1280,
-    "height":720
+    "show_in_taskbar":true
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC"
+
 }

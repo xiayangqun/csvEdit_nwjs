@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello world</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="left"><p></p></div>
+    <div class="middle"><p>middle</p></div>
+    <div class="right"><p>right</p></div>
+
+    <script src="src/DirectoriesManager.js"></script>
+    <script src="src/FilesManager.js"></script>
+    <script src="src/EditManager.js"></script>
+    <script src="src/LocalData.js"></script>
+    <script>
+
+        var win=nw.Window.get();
+        win.showDevTools();
+        win.width=1280;
+        win.height=720;
+
+        LocalData.init();
+
+        var divs=document.body.querySelectorAll('div');
+        DirectoriesManager.init(divs[0],LocalData.csvRootDir);
+        EditManager.init(divs[1]);
+
+    </script>
+</body>
+</html>
