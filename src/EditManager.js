@@ -39,6 +39,22 @@ EditManager={
             }
         }.bind(this));
         FilesManager.changeFileName('');
+
+
+        var input=document.createElement('input');
+        input.type='text';
+        input.placeholder='输入新的csv文件名';
+        this._divNode.appendChild(input);
+
+        var sureButton=document.createElement('button');
+        sureButton.textContent='新建文件';
+        sureButton.addEventListener('click',function (event) {
+            var fullPath= this._currentCsvRoot+'/'+input.value;
+            var fs=require('fs');
+            fs.writeFileSync(fullPath,'','utf8');
+            this.changeCurrentCsvRoot(this._currentCsvRoot);
+        }.bind(this));
+        this._divNode.appendChild(sureButton);
     },
 
     removeAllChild:function () {

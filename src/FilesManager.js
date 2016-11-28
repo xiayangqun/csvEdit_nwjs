@@ -40,8 +40,11 @@ FilesManager={
             var string= fs.readFileSync(this._csvFileName,'utf8');
             var eachCsvRows= string.split('\r');
             eachCsvRows.forEach(function (eachCsvRow) {
+
+                if(eachCsvRow == '') return;
+
                 var eachCsvCells=eachCsvRow.split(LocalData.currentCsvConfig.splitChar);
-                var eachConfCells=LocalData.currentCsvConfig.rows[eachCsvCells[0]];
+                var eachConfCells=LocalData.currentCsvConfig.rows[eachCsvCells[1]];
                 var tableRowWidget=new TableRowWidget();
                 tableRowWidget.init(eachConfCells,eachCsvCells);
                 this._tableNode.appendChild(tableRowWidget.tableRowNode);
