@@ -39,25 +39,44 @@
         win.width= 1280;
         win.height=720;
         win.setPosition('center');
-
+//        win.on('close',function () {
+//           nw.Window.open('csvEdit.html');
+//            win.close(true);
+//        });
 
         LocalData.init();
-        console.log(LocalData);
+        var oldConfigObj=null;
+
+
         var h1Node=document.body.querySelector('h1');
         h1Node.textContent="文件夹:"+LocalData.currentCsvDir;
-
 
         var table1Node=document.getElementById('table1Node');
         function createRow(colNums) {
             var tr=document.createElement('tr');
-            for(var i=0;i<colNums;i++)
+
+            if(typeof colNums == 'number') {
+
+                for (var i = 0; i < colNums; i++) {
+                    var td = document.createElement('td');
+                    var textarea = document.createElement('textarea');
+                    textarea.placeholder = '请输入内容';
+                    if (i == 0) textarea.placeholder = '本格子内容不能为空';
+                    td.appendChild(textarea);
+                    tr.appendChild(td);
+                }
+            }
+            else
             {
-                var td=document.createElement('td');
-                var textarea=document.createElement('textarea');
-                textarea.placeholder='请输入内容';
-                if(i==0) textarea.placeholder='本格子内容不能为空';
-                td.appendChild(textarea);
-                tr.appendChild(td);
+                for (var i = 0; i < colNums.length; i++) {
+                    var td = document.createElement('td');
+                    var textarea = document.createElement('textarea');
+                    textarea.placeholder = '请输入内容';
+                    if (i == 0) textarea.placeholder = '本格子内容不能为空';
+                    textarea.value=colNums[i];
+                    td.appendChild(textarea);
+                    tr.appendChild(td);
+                }
             }
             return tr;
         }
@@ -138,23 +157,87 @@
             obj.cellEnum=cellEnum;
             obj.splitChar=splitChar;
 
-            var writeString = JSON.stringify(obj,null,2);
-            var fs=require('fs');
-            fs.writeFileSync(LocalData.currentCsvDir+'/config.json',writeString);
-            alert('保存配置表成功了')
+
+            var confirmString='';
+
+            if(oldConfigObj !=null)
+            {
+                var oldowsKey=getKeys(oldConfigObj.rows);
+                var deleteKey=[];
+                for(var i=0;i<oldowsKey.length;i++)
+                {
+                    if(obj.rows[oldowsKey[i]] == null)
+                            deleteKey.push(oldowsKey[i]);
+                }
+
+                if(deleteKey.length!=0)
+                {
+                    var deletArray=deleteKey.join(',');
+                    confirmString=confirmString+'系统检测到以下的头部字段已经被删除:'+deletArray;
+                }
+
+                if(oldConfigObj.splitChar != obj.splitChar)
+                        confirmString=confirmString+'\n'+'系统检测到你更改了文件分隔符';
+
+
+                if(confirmString!='')
+                {
+                    var ret=window.confirm(confirmString+'\n可能导致已经保存的csv文件打开失败,是否继续?');
+                    if(ret)
+                    {
+                        var writeString = JSON.stringify(obj,null,2);
+                        var fs=require('fs');
+                        fs.writeFileSync(LocalData.currentCsvDir+'/config.json',writeString);
+                        oldConfigObj=obj;
+                        alert('保存配置表成功');
+                    }
+                    else
+                    {
+
+                    }
+                }
+                else
+                {
+                    var writeString = JSON.stringify(obj,null,2);
+                    var fs=require('fs');
+                    fs.writeFileSync(LocalData.currentCsvDir+'/config.json',writeString);
+                    oldConfigObj=obj;
+                    alert('保存配置表成功');
+                }
+            }
+            else
+            {
+                var writeString = JSON.stringify(obj,null,2);
+                var fs=require('fs');
+                fs.writeFileSync(LocalData.currentCsvDir+'/config.json',writeString);
+                oldConfigObj=obj;
+                alert('保存配置表成功');
+            }
         }
 
 
         var table2Node=document.getElementById('table2Node');
+        function createRow2(headName,stringArray) {
 
-        function createRow2() {
+            var tr = document.createElement('tr');
+                var td1 = document.createElement('td');
+                var textarea = document.createElement('textarea');
+                textarea.placeholder = '请输入枚举的名字';
+                if(typeof headName =='string')
+                        textarea.value=headName;
+                td1.appendChild(textarea);
+                tr.appendChild(td1);
 
-            var tr=document.createElement('tr');
-            var td1=document.createElement('td');
-            var textarea=document.createElement('textarea');
-            textarea.placeholder='请输入枚举的名字';
-            td1.appendChild(textarea);
-            tr.appendChild(td1);
+        if(typeof stringArray != 'undefined') {
+            for (var i = 0; i < stringArray.length; i++) {
+                var td1 = document.createElement('td');
+                var textarea = document.createElement('textarea');
+                textarea.placeholder = '请输入枚举的名字';
+                textarea.value = stringArray[i];
+                td1.appendChild(textarea);
+                tr.appendChild(td1);
+            }
+        }
 
             var tdDelete=document.createElement('td');
             var buttonDelete=document.createElement('button');
@@ -198,6 +281,66 @@
             table2Node.querySelector('tbody').removeChild(allTr[allTr.length-1]);
         }
 
+
+
+        var fs=require('fs');
+        if(fs.existsSync(LocalData.currentCsvDir+'/config.json'))
+        {
+            //对已经存在的模板进行编辑
+            var configString=fs.readFileSync(LocalData.currentCsvDir+'/config.json','utf8');
+            oldConfigObj=JSON.parse(configString);
+
+            var table1tbody=table1Node.querySelector('tbody');
+            while (table1tbody.childNodes.length!=0) table1tbody.removeChild(table1tbody.firstChild);
+            var table2tbody=table2Node.querySelector('tbody');
+            while (table2tbody.childNodes.length!=0) table2tbody.removeChild(table2tbody.firstChild);
+
+            //初始化table1
+            for (var rowKey in oldConfigObj.rows)
+            {
+                if (oldConfigObj.rows.hasOwnProperty(rowKey))
+                {
+                    var rowsString=oldConfigObj.rows[rowKey];
+                    var tr=createRow(rowsString);
+                    table1tbody.appendChild(tr);
+                }
+            }
+
+
+            //初始化table2
+            for(var cellEnumKey in oldConfigObj.cellEnum)
+            {
+                if(oldConfigObj.cellEnum.hasOwnProperty(cellEnumKey))
+                {
+                    var stringArray=oldConfigObj.cellEnum[cellEnumKey];
+                    var tr=createRow2(cellEnumKey,stringArray);
+                    table2tbody.appendChild(tr);
+                }
+            }
+
+
+            var select=document.querySelector('select');
+            var allOption=select.querySelectorAll('option');
+            for(var i=0;i<allOption.length;i++)
+            {
+                if(allOption[i].value == oldConfigObj.splitChar)
+                {
+                    select.selectedIndex=i;
+                    break;
+                }
+            }
+        }
+
+
+        function getKeys(obj)
+        {
+            var keys=[];
+            for (var p1 in obj) {
+                if (obj.hasOwnProperty(p1))
+                    keys.push(p1);
+            }
+            return keys;
+        }
     </script>
 </body>
 </html>
