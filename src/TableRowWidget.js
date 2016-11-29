@@ -63,6 +63,12 @@ TableRowWidget.prototype.init = function (configRowArray,csvRowArray,isSave)
             }.bind(this));
             selectNode.selectedIndex=sureIndex;
             tableCellNode.appendChild(selectNode);
+
+            // var textNode= document.createTextNode(eachConfig);
+            // tableCellNode.appendChild(textNode);
+            var textNode= document.createElement('p');
+            textNode.textContent=eachConfig;
+            tableCellNode.appendChild(textNode);
         }
         else
         {

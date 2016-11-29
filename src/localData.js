@@ -30,6 +30,7 @@ LocalData={
             var jsonString=fs.readFileSync(this.writeablePath+'/data.json','utf8');
             var jsonObj=JSON.parse(jsonString);
             this.csvRootDir=jsonObj.csvRootDir;
+            this.currentCsvDir=jsonObj.currentCsvDir;
         }
         else
         {

@@ -12,8 +12,7 @@ EditManager={
     },
     
     changeCurrentCsvRoot:function (currentCsvRoot) {
-        LocalData.currentCsvDir=currentCsvRoot;
-        LocalData.save();
+
         this._currentCsvRoot=currentCsvRoot;
         this.removeAllChild();
         var fs=require('fs');
@@ -64,6 +63,9 @@ EditManager={
         else
         {
             //不存在这个 config.json这个文件,那么需要重新编辑
+            LocalData.currentCsvDir=currentCsvRoot;
+            LocalData.save();
+            console.log(LocalData);
             nw.Window.open('configEdit.html',{},function (win) {});
         }
     },

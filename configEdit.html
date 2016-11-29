@@ -6,33 +6,33 @@
 </head>
 <body>
     <h1>编辑的哪个文件夹下的名字</h1>
-    <table>
+    <table id="table1Node" border="5px">
+        <tbody>
         <tr>
-            <th><textarea>第一个格子输入标题头</textarea></th>
-            <th><textarea>第二个之后的格子随便输入些什么都行</textarea></th>
-            <th><textarea>第二个之后的格子随便输入些什么都行</textarea></th>
-            <th><textarea>第二个之后的格子随便输入些什么都行</textarea></th>
+            <td><textarea>第一个格子输入标题头</textarea></td>
+            <td><textarea>第二个之后的格子随便输入些什么都行</textarea></td>
         </tr>
+        </tbody>
     </table>
     <button onclick="addRow()">增加新的一行</button>
     <button onclick="addCol()">增加新的一列</button>
-    <button onclick="save()">保存</button>
-
-
-    <script src="src/LocalData.js"/>
+    <button onclick="cutRow()">删除最后一行</button>
+    <button onclick="cutCol()">删除最后一列</button>
+    <p></p><p></p><p></p><p></p><p></p>
+    <table id="table2Node" border="5px">
+        <tbody></tbody>
+    </table>
+    <button onclick="addRow2()">增加一个新枚举</button>
+    <button onclick="cutRow2()">删除最后的枚举</button>
+    <p></p>
+    选择csv的分隔符:<select>
+        <option>,</option>
+        <option>.</option>
+        <option>|</option>
+    </select>
+    <p><button onclick="save()">保存</button></p>
+    <script src="src/LocalData.js"></script>
     <script>
-        function addRow() {
-
-        }
-
-        function addCol() {
-
-        }
-
-
-        function save() {
-
-        }
 
         var win=nw.Window.get();
         win.showDevTools();
@@ -43,10 +43,160 @@
 
         LocalData.init();
         console.log(LocalData);
-
         var h1Node=document.body.querySelector('h1');
-        h1Node.textContent=LocalData.currentCsvDir;
+        h1Node.textContent="文件夹:"+LocalData.currentCsvDir;
 
+
+        var table1Node=document.getElementById('table1Node');
+        function createRow(colNums) {
+            var tr=document.createElement('tr');
+            for(var i=0;i<colNums;i++)
+            {
+                var td=document.createElement('td');
+                var textarea=document.createElement('textarea');
+                textarea.placeholder='请输入内容';
+                if(i==0) textarea.placeholder='本格子内容不能为空';
+                td.appendChild(textarea);
+                tr.appendChild(td);
+            }
+            return tr;
+        }
+
+        function addRow() {
+            var colNums=table1Node.querySelector('tbody').querySelector('tr').querySelectorAll('td').length;
+            var tr=createRow(colNums);
+            table1Node.querySelector('tbody').appendChild(tr);
+        }
+
+        function addCol() {
+
+            var allTr=table1Node.querySelector('tbody').querySelectorAll('tr')
+            allTr.forEach(function (tr) {
+                var td=document.createElement('td');
+                var textarea=document.createElement('textarea');
+                textarea.placeholder='请输入内容';
+                td.appendChild(textarea);
+                tr.appendChild(td);
+            })
+        }
+
+        function cutRow() {
+            var allTr=table1Node.querySelector('tbody').querySelectorAll('tr')
+            table1Node.querySelector('tbody').removeChild(allTr[allTr.length-1]);
+        }
+
+        function cutCol() {
+            var allTr=table1Node.querySelector('tbody').querySelectorAll('tr')
+            allTr.forEach(function (tr) {
+                var allTd=tr.querySelectorAll('td');
+                tr.removeChild(allTd[allTd.length-1]);
+            })
+        }
+
+        function save() {
+            //rows
+            var rows={};
+            var table1tbody=table1Node.querySelector('tbody');
+            var table1AllTr=table1tbody.querySelectorAll('tr');
+            table1AllTr.forEach(function (eachTr) {
+
+                var allTd=eachTr.querySelectorAll('td');
+                var stringArray=[];
+                allTd.forEach(function (eachTd,pos) {
+                    var textarea= eachTd.querySelector('textarea');
+                    if(pos==0 && textarea.value == '')alert('出错了:每行的头元素必须不能为空');
+                    stringArray.push(textarea.value);
+                })
+                rows[stringArray[0]]=stringArray;
+            });
+
+
+            //cellEnum
+            var cellEnum={};
+            var table2tbody=table2Node.querySelector('tbody');
+            var table2AllTr=table2tbody.querySelectorAll('tr');
+            table2AllTr.forEach(function (eachTr) {
+
+                var stringArray=[];
+                var allTd=eachTr.querySelectorAll('td');
+                //跳过最后的两个按钮
+                for(var i=0;i<allTd.length-2;i++)
+                {
+                    var textarea=allTd[i].querySelector('textarea');
+                    stringArray.push(textarea.value);
+                }
+                var key=stringArray.shift();
+                cellEnum[key]=stringArray;
+            });
+
+            //splitChar
+            var splitChar=document.body.querySelector('select').value;
+
+            var obj={};
+
+            obj.rows=rows;
+            obj.cellEnum=cellEnum;
+            obj.splitChar=splitChar;
+
+            var writeString = JSON.stringify(obj,null,2);
+            var fs=require('fs');
+            fs.writeFileSync(LocalData.currentCsvDir+'/config.json',writeString);
+            alert('保存配置表成功了')
+        }
+
+
+        var table2Node=document.getElementById('table2Node');
+
+        function createRow2() {
+
+            var tr=document.createElement('tr');
+            var td1=document.createElement('td');
+            var textarea=document.createElement('textarea');
+            textarea.placeholder='请输入枚举的名字';
+            td1.appendChild(textarea);
+            tr.appendChild(td1);
+
+            var tdDelete=document.createElement('td');
+            var buttonDelete=document.createElement('button');
+            buttonDelete.textContent='删除最后一个枚举选项';
+            buttonDelete.addEventListener('click',function (event) {
+                if(tr.querySelectorAll('td').length>3)
+                {
+                    var removeTd=tdDelete.previousSibling;
+                    tr.removeChild(removeTd);
+                }
+            });
+            tdDelete.appendChild(buttonDelete);
+            tr.appendChild(tdDelete);
+
+
+            var tdAdd=document.createElement('td');
+            var buttonAdd=document.createElement('button');
+            buttonAdd.textContent='新增一个枚举选项';
+            buttonAdd.addEventListener('click',function (event) {
+                var tdOption=document.createElement('td');
+                var textarea=document.createElement('textarea');
+                textarea.placeholder='请输入枚举选项名字';
+                tdOption.appendChild(textarea);
+                tr.insertBefore(tdOption,tdDelete);
+            });
+            tdAdd.appendChild(buttonAdd);
+            tr.appendChild(tdAdd);
+
+            return tr;
+        }
+
+
+        function addRow2() {
+            var tr=createRow2();
+            table2Node.querySelector('tbody').appendChild(tr);
+        }
+
+        function cutRow2()
+        {
+            var allTr=table2Node.querySelector('tbody').querySelectorAll('tr');
+            table2Node.querySelector('tbody').removeChild(allTr[allTr.length-1]);
+        }
 
     </script>
 </body>

@@ -13,6 +13,7 @@ FilesManager={
         this._divNode=divNode;
 
         this._tableNode=document.createElement('table');
+        this._tableNode.border='2px';
         this._divNode.appendChild(this._tableNode);
 
         var addButton=document.createElement('button');
@@ -64,7 +65,18 @@ FilesManager={
 
 
     _onAddButtonClick:function (event) {
-        alert('点击了新增按钮')
+
+        var appendTableRowWidget=new TableRowWidget();
+        var configRowArray=LocalData.currentCsvConfig.rows[appendTableRowWidget.getKeys(LocalData.currentCsvConfig.rows)[0]];
+        var csvRowArray=[];
+        csvRowArray[0]=this._tableRowWidgets.length+1;
+        csvRowArray[1]=configRowArray[0];
+        for(var i=2;i<configRowArray.length+1;i++)
+            csvRowArray.push('');
+
+        appendTableRowWidget.init(configRowArray,csvRowArray);
+        this._tableNode.appendChild(appendTableRowWidget.tableRowNode);
+        this._tableRowWidgets.push( appendTableRowWidget);
     },
 
     _onSaveButtonClick:function (event) {
