@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑配置表</title>
+</head>
+<body>
+    <h1>编辑的哪个文件夹下的名字</h1>
+    <table>
+        <tr>
+            <th><textarea>第一个格子输入标题头</textarea></th>
+            <th><textarea>第二个之后的格子随便输入些什么都行</textarea></th>
+            <th><textarea>第二个之后的格子随便输入些什么都行</textarea></th>
+            <th><textarea>第二个之后的格子随便输入些什么都行</textarea></th>
+        </tr>
+    </table>
+    <button onclick="addRow()">增加新的一行</button>
+    <button onclick="addCol()">增加新的一列</button>
+    <button onclick="save()">保存</button>
+
+
+    <script src="src/LocalData.js"/>
+    <script>
+        function addRow() {
+
+        }
+
+        function addCol() {
+
+        }
+
+
+        function save() {
+
+        }
+
+        var win=nw.Window.get();
+        win.showDevTools();
+        win.width= 1280;
+        win.height=720;
+        win.setPosition('center');
+
+
+        LocalData.init();
+        console.log(LocalData);
+
+        var h1Node=document.body.querySelector('h1');
+        h1Node.textContent=LocalData.currentCsvDir;
+
+
+    </script>
+</body>
+</html>
