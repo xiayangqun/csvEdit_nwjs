@@ -21,7 +21,6 @@ FilesManager={
         addButton.addEventListener('click',this._onAddButtonClick.bind(this));
         this._divNode.appendChild(addButton);
 
-
         var addButton=document.createElement('button');
         addButton.appendChild(document.createTextNode('保存'));
         addButton.addEventListener('click',this._onSaveButtonClick.bind(this));
@@ -66,6 +65,13 @@ FilesManager={
 
     _onAddButtonClick:function (event) {
 
+        if(this._csvFileName == '')
+        {
+            alert('尚未选择具体的csv文件');
+            return;
+        }
+
+
         var appendTableRowWidget=new TableRowWidget();
         var configRowArray=LocalData.currentCsvConfig.rows[appendTableRowWidget.getKeys(LocalData.currentCsvConfig.rows)[0]];
         var csvRowArray=[];
@@ -80,6 +86,13 @@ FilesManager={
     },
 
     _onSaveButtonClick:function (event) {
+
+
+        if(this._csvFileName == '')
+        {
+            alert('尚未选择具体的csv文件');
+            return;
+        }
 
         var strArray=[];
         this._tableRowWidgets.forEach(function (item) {

@@ -10,7 +10,9 @@
     "title":"NWTest",
     "toolbar":true,
     "frame":true,
-    "show_in_taskbar":true
+    "show_in_taskbar":true,
+    "width":1280,
+    "height":720
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

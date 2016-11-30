@@ -38,7 +38,11 @@
         win.showDevTools();
         win.width= 1280;
         win.height=720;
-        win.setPosition('center');
+        win.once('resize',function () {
+            win.setPosition('center');
+
+        });
+
 //        win.on('close',function () {
 //           nw.Window.open('csvEdit.html');
 //            win.close(true);

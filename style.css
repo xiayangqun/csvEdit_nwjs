@@ -3,24 +3,70 @@ body{
     height: 720px;
 }
 
-.left{
-    width: 10%;
-    height: 100%;
-    background-color: cadetblue;
-    float: left;
+div{
+    margin-left: 2px;
+    margin-right: 2px;
+}
 
+.left{
+    width: 120px;
+    height: 100%;
+    background-color: rgba(209,74,0,1);
+    float: left;
 }
 
 .middle{
-    width: 10%;
+    width: 120px;
     height: 100%;
-    background-color: greenyellow;
+    background-color: rgba(0,139,209,1);
     float: left;
 }
 
 .right{
-    width: 80%;
+    width: 1024px;
     height: 100%;
     background-color: whitesmoke;
     float: left;
 }
+
+p{
+    height: 30px;
+    padding: 0px ;
+    margin: 0px;
+    line-height: 30px;
+    text-align: left;
+}
+
+input{
+    width: 114px;
+    height: 20px;
+    border-color: black;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.leftButton{
+    width: 100%;
+    height: 25px;
+    background-color: rgba(209,33,0,1);
+}
+
+.middleButton{
+
+
+}
+
+.middleButton-sure{
+    width: 100%;
+    height: 25px;
+    background-color: rgba(51,128,210,1);
+}
+
+.middleButton-edit{
+    margin-top: 15px;
+    width: 100%;
+    height: 25px;
+    background-color: rgba(0,81,107,1);
+}
+
+

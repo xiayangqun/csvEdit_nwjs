@@ -6,9 +6,9 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <div class="left"><p></p></div>
-    <div class="middle"><p>middle</p></div>
-    <div class="right"><p>right</p></div>
+    <div class="left"></div>
+    <div class="middle"></div>
+    <div class="right"></div>
 
     <script src="src/LocalData.js"></script>
     <script src="src/TableRowWidget.js"></script>
@@ -17,11 +17,7 @@
     <script src="src/EditManager.js"></script>
     <script>
 
-        var win=nw.Window.get();
-        win.showDevTools();
-        win.width=1280;
-        win.height=720;
-        win.setPosition('center');
+
 
         LocalData.init();
 
@@ -29,6 +25,19 @@
         DirectoriesManager.init(divs[0],LocalData.csvRootDir);
         EditManager.init(divs[1]);
         FilesManager.init(divs[2]);
+
+        var win=nw.Window.get();
+        win.showDevTools();
+        win.width=1280;
+        win.height=720;
+        win.once('resize',function () {
+            this.setPosition('center');
+        });
+        win.on('resize',function (width,height) {
+            divs[2].style.width=width-240;
+        });
+
+
 
     </script>
 </body>
