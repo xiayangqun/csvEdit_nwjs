@@ -69,4 +69,64 @@ input{
     background-color: rgba(0,81,107,1);
 }
 
+table{
+    border-collapse: collapse;
+}
+
+td{
+    border: 1px solid black;
+    text-align: center;
+    width: 120px;
+    height: 10px;
+}
+
+textarea{
+    width: 120px;
+    height: 20px;
+}
+
+select{
+    width: 120px;
+    height: 20px;
+}
+
+
+
+tr,textarea,select{
+    background-color: #00e1cb;
+}
+
+.deepSelect, .deepTextarea{
+    background-color: #00ac9d;
+}
+
+.csvAddButton{
+    height: 25px;
+    background-color: #67b168;
+}
+
+.csvSaveButton{
+    height: 25px;
+    background-color: #5cb85c;
+}
+
+button{
+    height: 25px;
+}
+
+.delete{
+    background-color: #c80009;
+}
+
+.add{
+    background-color: #04b304;
+}
+
+.buttonInTd{
+    width: 50px;
+}
+
+
+
+
 

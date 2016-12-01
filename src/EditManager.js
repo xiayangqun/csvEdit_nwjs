@@ -86,7 +86,8 @@ EditManager={
             editButton.textContent='编辑模板文件';
             editButton.className='middleButton-edit';
             editButton.addEventListener('click',function (event) {
-                nw.Window.open('configEdit.html',{},function (win) {});
+
+                nw.Window.open('configEdit.html',{new_instance:true},function (win) {});
                 nw.Window.get().close(true);
             }.bind(this));
             this._divNode.appendChild(editButton);
@@ -94,8 +95,8 @@ EditManager={
         else
         {
             //不存在这个 config.json这个文件,那么需要重新编辑
-            nw.Window.open('configEdit.html',{},function (win) {});
-
+            nw.Window.open('configEdit.html',{new_instance:true},function (win) {});
+            nw.Window.get().close();
         }
     },
 

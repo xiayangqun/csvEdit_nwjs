@@ -9,22 +9,38 @@ FilesManager={
     _csvFileName:'',
     _tableRowWidgets:[],
 
+    _addButton:null,
+    _saveButton:null,
+
+
     init:function (divNode) {
         this._divNode=divNode;
 
         this._tableNode=document.createElement('table');
-        this._tableNode.border='2px';
+        this._tableNode.style.marginTop='25px';
         this._divNode.appendChild(this._tableNode);
 
-        var addButton=document.createElement('button');
-        addButton.appendChild(document.createTextNode('新增加一行'));
-        addButton.addEventListener('click',this._onAddButtonClick.bind(this));
-        this._divNode.appendChild(addButton);
 
-        var addButton=document.createElement('button');
-        addButton.appendChild(document.createTextNode('保存'));
-        addButton.addEventListener('click',this._onSaveButtonClick.bind(this));
-        this._divNode.appendChild(addButton);
+        var pNode=document.createElement('p');
+        pNode.style.height='10px';
+        this._divNode.appendChild(pNode);
+
+        this._addButton=document.createElement('button');
+        this._addButton.className='csvAddButton';
+        this._addButton.appendChild(document.createTextNode('新增加一行'));
+        this._addButton.addEventListener('click',this._onAddButtonClick.bind(this));
+        this._divNode.appendChild(this._addButton);
+
+        var pNode=document.createElement('p');
+        pNode.style.height='2px';
+        this._divNode.appendChild(pNode);
+
+
+        this._saveButton=document.createElement('button');
+        this._saveButton.className='csvSaveButton';
+        this._saveButton.appendChild(document.createTextNode('保存'));
+        this._saveButton.addEventListener('click',this._onSaveButtonClick.bind(this));
+        this._divNode.appendChild(this._saveButton);
 
     },
 
@@ -39,7 +55,8 @@ FilesManager={
             var fs=require('fs');
             var string= fs.readFileSync(this._csvFileName,'utf8');
             var eachCsvRows= string.split('\r');
-            eachCsvRows.forEach(function (eachCsvRow) {
+
+            eachCsvRows.forEach(function (eachCsvRow,pos) {
 
                 if(eachCsvRow == '') return;
 
@@ -49,7 +66,12 @@ FilesManager={
                 tableRowWidget.init(eachConfCells,eachCsvCells);
                 this._tableNode.appendChild(tableRowWidget.tableRowNode);
                 this._tableRowWidgets.push(tableRowWidget);
+                if(pos%2==0) tableRowWidget.tableRowNode.className='deeptr';
             }.bind(this));
+
+            this._addButton.style.width=this._tableNode.clientWidth+'px';
+            this._saveButton.style.width = this._tableNode.clientWidth+'px';
+
         }
         else
         {
@@ -70,8 +92,6 @@ FilesManager={
             alert('尚未选择具体的csv文件');
             return;
         }
-
-
         var appendTableRowWidget=new TableRowWidget();
         var configRowArray=LocalData.currentCsvConfig.rows[appendTableRowWidget.getKeys(LocalData.currentCsvConfig.rows)[0]];
         var csvRowArray=[];

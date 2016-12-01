@@ -29,6 +29,7 @@ TableRowWidget.prototype.init = function (configRowArray,csvRowArray,isSave)
     var currentHead = csvRowArray[1];
     var tableCellNode = document.createElement('td');
     var select=document.createElement('select');
+    select.className='deepSelect';
     var tableHeads= this.getKeys(LocalData.currentCsvConfig.rows);
     var sureIndex=0;
     tableHeads.forEach(function (eachHead,pos) {
@@ -63,12 +64,7 @@ TableRowWidget.prototype.init = function (configRowArray,csvRowArray,isSave)
             }.bind(this));
             selectNode.selectedIndex=sureIndex;
             tableCellNode.appendChild(selectNode);
-
-            // var textNode= document.createTextNode(eachConfig);
-            // tableCellNode.appendChild(textNode);
-            var textNode= document.createElement('p');
-            textNode.textContent=eachConfig;
-            tableCellNode.appendChild(textNode);
+            selectNode.title=eachConfig;
         }
         else
         {
