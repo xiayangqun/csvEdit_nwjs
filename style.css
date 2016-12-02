@@ -16,18 +16,17 @@ div{
 }
 
 .middle{
-    width: 150px;
+    width: 120px;
     height: 100%;
     background-color: rgba(0,139,209,1);
     float: left;
 }
 
 .right{
-    width: 980px;
+    width: 1000px;
     height: 100%;
     background-color: whitesmoke;
     float: left;
-    overflow: auto;
     border: #009fac;
 }
 
@@ -94,7 +93,7 @@ td,select, textarea{
 }
 
 .divButton{
-    width: 120px;
+    width: 150px;
     height: 20px;
     padding: 0px;
 }

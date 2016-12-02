@@ -1,11 +1,6 @@
 {
   "name": "nwtest",
   "main": "src/main.js",
-  "chromium-args": "--mixed-context",
-  "node-main":"src/LocalData",
-  "nodejs":true,
-  "version": "1.0.0",
-  "description": "",
   "window":{
     "title":"NWTest",
     "toolbar":true,
@@ -14,6 +9,12 @@
     "width":1280,
     "height":720
   },
+  "chromium-args": "--mixed-context",
+  "node-main":"src/LocalData",
+  "nodejs":true,
+  "version": "1.0.0",
+  "description": "",
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -13,6 +13,7 @@ EditManager={
     
     changeCurrentCsvRoot:function (currentCsvRoot) {
 
+
         LocalData.currentCsvDir=currentCsvRoot;
         LocalData.save();
         this._currentCsvRoot=currentCsvRoot;
@@ -50,7 +51,7 @@ EditManager={
             divInNode.style.overflow='auto';
             allCsvFileNames.forEach(function (csvFileName) {
                 var stat = fs.statSync(this._currentCsvRoot + '/' + csvFileName);
-                if (stat.isFile() && csvFileName != 'config.json') {
+                if (stat.isFile() && csvFileName != 'config.json'&&csvFileName[0] !='.') {
                     var pNode = document.createElement('p');
                     pNode.innerText=csvFileName;
                     divInNode.appendChild(pNode);
@@ -62,6 +63,10 @@ EditManager={
                         FilesManager.changeFileName(this._currentCsvRoot + '/' + csvFileName);
 
                     }.bind(this));
+                    pNode.addEventListener('dblclick',function (event) {
+                        nw.Shell.showItemInFolder(this._currentCsvRoot + '/' + csvFileName);
+                    }.bind(this));
+                    pNode.title='双击在文件件中打开文件目录';
                 }
             }.bind(this));
             this._divNode.appendChild(divInNode);
@@ -89,7 +94,6 @@ EditManager={
             editButton.textContent='编辑模板文件';
             editButton.className='middleButton-edit';
             editButton.addEventListener('click',function (event) {
-
                 nw.Window.open('configEdit.html',{new_instance:true},function (win) {});
                 nw.Window.get().close(true);
             }.bind(this));
