@@ -21,16 +21,17 @@ DirectoriesManager={
         var fs=require('fs');
         var allCsvDirNames=fs.readdirSync(this._csvRootPath);
 
-        console.log(allCsvDirNames);
-
+        var divInNode=document.createElement('div');
+        divInNode.style.width='100%';
+        divInNode.style.height='500px';
+        divInNode.style.overflow='auto';
         allCsvDirNames.forEach(function (csvDirName) {
             var stat=fs.statSync(this._csvRootPath +'/'+csvDirName);
             if(stat.isDirectory())
             {
                 var pNode=document.createElement('p');
                 pNode.innerText=csvDirName;
-                this._divNode.appendChild(pNode);
-                
+                divInNode.appendChild(pNode);
                 pNode.addEventListener('click',function (event) {
                     if(this._currentItem) this._currentItem.style.backgroundColor='transparent';
                     this._currentItem=pNode;
@@ -39,7 +40,7 @@ DirectoriesManager={
                 }.bind(this));
             }
         }.bind(this));
-
+        this._divNode.appendChild(divInNode);
 
         var input=document.createElement('input');
         input.type='text';

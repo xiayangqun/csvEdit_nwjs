@@ -10,8 +10,8 @@
 <table id="table1Node" style="float: left">
     <tbody>
     <tr>
-        <td><textarea>第一个格子输入标题头</textarea></td>
-        <td><textarea>第二个之后的格子随便输入些什么都行</textarea></td>
+        <td><textarea placeholder="不能为空" class="deepTextarea"></textarea></td>
+        <td><textarea placeholder="输入属性"></textarea></td>
     </tr>
     </tbody>
 </table>
@@ -90,7 +90,7 @@
                 var textarea = document.createElement('textarea');
                 textarea.placeholder = '请输入内容';
                 if (i == 0) {
-                    textarea.placeholder = '本格子内容不能为空';
+                    textarea.placeholder = '不能为空';
                     textarea.className = 'deepTextarea';
                 }
                 td.appendChild(textarea);
@@ -252,7 +252,7 @@
         var tr = document.createElement('tr');
         var td1 = document.createElement('td');
         var textarea = document.createElement('textarea');
-        textarea.placeholder = '请输入枚举的名字';
+        textarea.placeholder = '枚举的名字';
         textarea.className = 'deepTextarea';
         if (typeof headName == 'string')
             textarea.value = headName;
@@ -263,7 +263,7 @@
             for (var i = 0; i < stringArray.length; i++) {
                 var td1 = document.createElement('td');
                 var textarea = document.createElement('textarea');
-                textarea.placeholder = '请输入枚举的名字';
+                textarea.placeholder = '枚举的名字';
                 textarea.value = stringArray[i];
                 td1.appendChild(textarea);
                 tr.appendChild(td1);
@@ -291,7 +291,7 @@
         buttonAdd.addEventListener('click', function (event) {
             var tdOption = document.createElement('td');
             var textarea = document.createElement('textarea');
-            textarea.placeholder = '请输入枚举选项名字';
+            textarea.placeholder = '枚举选项名字';
             tdOption.appendChild(textarea);
             tr.insertBefore(tdOption, tr.lastChild);
         });

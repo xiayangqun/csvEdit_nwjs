@@ -17,7 +17,8 @@ FilesManager={
         this._divNode=divNode;
 
         this._tableNode=document.createElement('table');
-        this._tableNode.style.marginTop='25px';
+        this._tableNode.style.marginTop='5px';
+        this._tableNode.style.marginLeft='5px';
         this._divNode.appendChild(this._tableNode);
 
 
@@ -47,6 +48,7 @@ FilesManager={
 
     changeFileName:function (fileName) {
         this._csvFileName = fileName;
+        document.head.querySelector('title').textContent=fileName;
         this.clearTableNde();
 
         if (this._csvFileName != '')
@@ -137,5 +139,47 @@ FilesManager={
         {
             this._tableNode.removeChild(this._tableNode.lastChild);
         }
+    },
+
+    //event ;'up','delete','down'
+    onTrChanger:function (trIndex,event) {
+        if(event =='delete')
+        {
+            var ok=confirm('删除操作不可逆,你确定要这样做吗?');
+            if(ok)
+            {
+                var tableRowWidget=this._tableRowWidgets[trIndex-1];
+                this._tableNode.removeChild(tableRowWidget.tableRowNode);
+                this._tableRowWidgets.splice(trIndex-1,1);
+
+            }
+        }
+        else if(event=='up')
+        {
+            if(trIndex > 1)
+            {
+
+                var tableRowWidget = this._tableRowWidgets[trIndex - 1];
+                var upTableRowWidget = this._tableRowWidgets[trIndex-2];
+                this._tableNode.insertBefore(tableRowWidget.tableRowNode, upTableRowWidget.tableRowNode);
+                this._tableRowWidgets.splice(trIndex-2,2,tableRowWidget,upTableRowWidget);
+            }
+        }
+        else if(event=='down')
+        {
+            if(trIndex<this._tableRowWidgets.length)
+            {
+                var tableRowWidget = this._tableRowWidgets[trIndex - 1];
+                var downTableRowWidget = this._tableRowWidgets[trIndex];
+                this._tableNode.insertBefore(downTableRowWidget.tableRowNode,tableRowWidget.tableRowNode);
+                this._tableRowWidgets.splice(trIndex-1,2,downTableRowWidget,tableRowWidget);
+            }
+        }
+
+
+        this._tableRowWidgets.forEach(function (tableRowWidget,pos) {
+            tableRowWidget.changeTrIndex(pos+1);
+        })
     }
+    
 };

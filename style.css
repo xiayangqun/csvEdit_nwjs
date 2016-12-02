@@ -16,17 +16,19 @@ div{
 }
 
 .middle{
-    width: 120px;
+    width: 150px;
     height: 100%;
     background-color: rgba(0,139,209,1);
     float: left;
 }
 
 .right{
-    width: 1024px;
+    width: 980px;
     height: 100%;
     background-color: whitesmoke;
     float: left;
+    overflow: auto;
+    border: #009fac;
 }
 
 p{
@@ -39,6 +41,14 @@ p{
 
 input{
     width: 114px;
+    height: 20px;
+    border-color: black;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.middleInput{
+    width: 144px;
     height: 20px;
     border-color: black;
     margin-top: 5px;
@@ -76,21 +86,18 @@ table{
 td{
     border: 1px solid black;
     text-align: center;
-    width: 120px;
-    height: 10px;
 }
 
-textarea{
-    width: 120px;
+td,select, textarea{
+    width: 100px;
     height: 20px;
 }
 
-select{
+.divButton{
     width: 120px;
     height: 20px;
+    padding: 0px;
 }
-
-
 
 tr,textarea,select{
     background-color: #00e1cb;
@@ -103,11 +110,13 @@ tr,textarea,select{
 .csvAddButton{
     height: 25px;
     background-color: #67b168;
+    margin-left: 5px;
 }
 
 .csvSaveButton{
     height: 25px;
     background-color: #5cb85c;
+    margin-left: 5px;
 }
 
 button{
@@ -125,6 +134,15 @@ button{
 .buttonInTd{
     width: 50px;
 }
+
+.upButton{
+    background-color: #16ac00;
+}
+
+.downButton{
+    background-color: #ac5900;
+}
+
 
 
 

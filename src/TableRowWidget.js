@@ -5,6 +5,7 @@
 var TableRowWidget=function () {
     this.tableRowNode = document.createElement('tr');
     this.csvRowArray=null;
+    this.trIndex=0;
 };
 
 TableRowWidget.prototype.init = function (configRowArray,csvRowArray,isSave)
@@ -24,6 +25,7 @@ TableRowWidget.prototype.init = function (configRowArray,csvRowArray,isSave)
     // var indexNode=document.createTextNode(csvRowArray.shift());
     // tableCellNode.appendChild(indexNode);
     this.tableRowNode.appendChild(tableCellNode);
+    this.trIndex=parseInt(csvRowArray[0]);
 
     //初始化第二个格子的标题
     var currentHead = csvRowArray[1];
@@ -78,6 +80,40 @@ TableRowWidget.prototype.init = function (configRowArray,csvRowArray,isSave)
 
         this.tableRowNode.appendChild(tableCellNode);
     }.bind(this));
+
+
+    //加入格子
+    var lastTd=document.createElement('td');
+    lastTd.style.width='120px';
+    var divButton=document.createElement('div');
+    divButton.className='divButton';
+
+    var upButton=document.createElement('button');
+    upButton.className='upButton';
+    upButton.textContent='上移';
+    upButton.addEventListener('click',function (event) {
+       FilesManager.onTrChanger(this.trIndex,'up');
+    }.bind(this));
+    divButton.appendChild(upButton);
+
+    var deleteButton=document.createElement('button');
+    deleteButton.className='delete';
+    deleteButton.textContent='删除';
+    deleteButton.addEventListener('click',function (event) {
+       FilesManager.onTrChanger(this.trIndex,'delete');
+    }.bind(this));
+    divButton.appendChild(deleteButton);
+
+    var downButton=document.createElement('button');
+    downButton.className='downButton';
+    downButton.textContent='下移';
+    downButton.addEventListener('click',function (event) {
+        FilesManager.onTrChanger(this.trIndex,'down');
+    }.bind(this));
+    divButton.appendChild(downButton);
+    lastTd.appendChild(divButton);
+    this.tableRowNode.appendChild(lastTd);
+
 };
 
 TableRowWidget.prototype.getString=function () {
@@ -86,7 +122,8 @@ TableRowWidget.prototype.getString=function () {
     var childNodes=this.tableRowNode.childNodes;
     ret.push(childNodes[0].textContent);
     ret.push(childNodes[1].firstChild.value);
-    for(var i=2;i<childNodes.length;i++)
+    //最后一个盛放按钮的格子跳过去
+    for(var i=2;i<childNodes.length-1;i++)
     {
         var child=childNodes[i];
         if(child.firstChild.nodeName.toLowerCase() == 'select')
@@ -132,6 +169,12 @@ TableRowWidget.prototype.changeHead=function (event) {
 
 TableRowWidget.prototype.removeTaleRowNode=function () {
     while (this.tableRowNode.childNodes.length !=0) this.tableRowNode.removeChild(this.tableRowNode.firstChild);
+};
+
+TableRowWidget.prototype.changeTrIndex=function(newIndex)
+{
+    this.trIndex=newIndex;
+    this.tableRowNode.firstChild.textContent=newIndex.toString();
 };
 
 

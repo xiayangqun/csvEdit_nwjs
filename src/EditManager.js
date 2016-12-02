@@ -23,11 +23,10 @@ EditManager={
 
         if(fs.existsSync(this._currentCsvRoot+"/config.json")) {
             //如果当前目录下存在这个 config.json
-
-
             var inputNode=document.createElement('input');
             inputNode.type='text';
             inputNode.placeholder='查找csv文件';
+            inputNode.className='middleInput';
             inputNode.addEventListener('input',function (event) {
                 var value=event.target.value;
                 var allPNode=this._divNode.querySelectorAll('p');
@@ -45,12 +44,16 @@ EditManager={
             var configString = fs.readFileSync(this._currentCsvRoot + "/config.json", 'utf8');
             LocalData.currentCsvConfig = JSON.parse(configString);
             var allCsvFileNames = fs.readdirSync(this._currentCsvRoot);
+            var divInNode=document.createElement('div');
+            divInNode.style.width='100%';
+            divInNode.style.height='500px';
+            divInNode.style.overflow='auto';
             allCsvFileNames.forEach(function (csvFileName) {
                 var stat = fs.statSync(this._currentCsvRoot + '/' + csvFileName);
                 if (stat.isFile() && csvFileName != 'config.json') {
                     var pNode = document.createElement('p');
                     pNode.innerText=csvFileName;
-                    this._divNode.appendChild(pNode);
+                    divInNode.appendChild(pNode);
                     pNode.addEventListener('click', function (event) {
                         if (this._currentItem)
                             this._currentItem.style.backgroundColor = 'transparent';
@@ -61,10 +64,10 @@ EditManager={
                     }.bind(this));
                 }
             }.bind(this));
+            this._divNode.appendChild(divInNode);
             FilesManager.changeFileName('');
-
-
             var input = document.createElement('input');
+            input.className='middleInput';
             input.type = 'text';
             input.placeholder = '输入新的csv文件名';
             this._divNode.appendChild(input);

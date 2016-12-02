@@ -17,10 +17,7 @@
     <script src="src/EditManager.js"></script>
     <script>
 
-
-
         LocalData.init();
-
         var divs=document.body.querySelectorAll('div');
         DirectoriesManager.init(divs[0],LocalData.csvRootDir);
         EditManager.init(divs[1]);
@@ -28,18 +25,14 @@
 
         var win=nw.Window.get();
         win.showDevTools();
-        win.width=1280;
-        win.height=720;
+        win.width=1300;
+        win.height=750;
         win.once('resize',function () {
             this.setPosition('center');
         });
         win.on('resize',function (width,height) {
-            divs[2].style.width=width-240;
+
         });
-
-
-
-
     </script>
 </body>
 </html>
